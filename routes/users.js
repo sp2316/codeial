@@ -6,5 +6,7 @@ const usersController=require('../controllers/users_controller');
 
 router.get('/profile',usersController.profile);
 
+router.get('/sign-up',usersController.signup);
+router.get('/sign-in',usersController.signin);
 
 module.exports=router;
