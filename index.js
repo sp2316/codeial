@@ -3,6 +3,7 @@ const app=express();
 
 const port=8000;
 
+
 // linking static files
 app.use(express.static('./assets'));
 
@@ -14,6 +15,8 @@ app.use(expressLayouts);
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
 
+// add dataase mongoose
+const db=require('./config/mongoose');
 
 // use express router
 app.use('/',require('./routes'));
