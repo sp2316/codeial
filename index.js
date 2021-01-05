@@ -1,22 +1,25 @@
 const express = require('express');
+const cookieParser= require('cookie-parser');
 const app=express();
-
 const port=8000;
+// adding Layouts
+const expressLayouts=require('express-ejs-layouts');
+// add dataase mongoose
+const db=require('./config/mongoose');
 
-
+// for forms
+app.use(express.urlencoded());
+// linking cookieparser
+app.use(cookieParser());
 // linking static files
 app.use(express.static('./assets'));
 
-// adding Layouts
-const expressLayouts=require('express-ejs-layouts');
 app.use(expressLayouts);
 
 //extract style and scripts from subpages into layout
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);
 
-// add dataase mongoose
-const db=require('./config/mongoose');
 
 // use express router
 app.use('/',require('./routes'));
