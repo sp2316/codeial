@@ -97,3 +97,11 @@ module.exports.createSession=function(req,res){
     });
 
 }
+
+
+module.exports.signout=function(req,res){
+
+res.clearCookie('user_id'); //to clear a cookie
+return res.redirect('sign-in');
+
+}
