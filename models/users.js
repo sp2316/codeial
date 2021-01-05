@@ -11,7 +11,7 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    name:{
+    name:{  // these keys must have the same name as the name given in form inorder for them to match
         type:String,
         required:true
     }
