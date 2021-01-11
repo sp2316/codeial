@@ -6,7 +6,7 @@ module.exports.profile=function(req,res){
 
 // Render the sign up page
 module.exports.signup= function(req,res){
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated()){ //if logged in sign up page shouldnt be shown
        return res.redirect('/users/profile');
     }
     return res.render('user_sign_up',{
@@ -16,7 +16,7 @@ module.exports.signup= function(req,res){
 
 // Render the sign in page
 
-module.exports.signin=function(req,res){
+module.exports.signin=function(req,res){ //if logged in sign in page shouldnt be shown
     if(req.isAuthenticated()){
       return res.redirect('/users/profile');
     }
