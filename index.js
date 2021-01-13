@@ -19,6 +19,18 @@ const passportLocal=require('./config/passport-local-strategy');
 //for storing session key in mongoDB
 const MongoStore=require('connect-mongo')(session); //pass the session variable created above
 
+//for requiring the node-sass-middleware module
+const  sassMiddleware=require('node-sass-middleware');
+
+// scss files need to be pre compiled before server starts
+app.use(sassMiddleware({
+    src:'/assets/scss',
+    dest:'/assets/css',
+    debug:true,
+    outputStyle: 'extended',
+    prefix:'/css'
+}));
+
 // for forms
 app.use(express.urlencoded());
 
