@@ -22,10 +22,10 @@ const MongoStore=require('connect-mongo')(session); //pass the session variable 
 //for requiring the node-sass-middleware module
 const  sassMiddleware=require('node-sass-middleware');
 
-// scss files need to be pre compiled before server starts
+// scss files need to be pre compiled before server starts,we set the settings here
 app.use(sassMiddleware({
-    src:'/assets/scss',
-    dest:'/assets/css',
+    src:'./assets/scss',
+    dest:'./assets/css',
     debug:true,
     outputStyle: 'extended',
     prefix:'/css'
