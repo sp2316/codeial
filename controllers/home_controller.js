@@ -1,8 +1,7 @@
 module.exports.home=function(req,res){
-    // console.log(req.cookies);
-    // res.cookie('user_id',25);
-    return res.render('home',{
-        title:'Home'
-    });
+    if(req.isAuthenticated()){ //if logged in sign up page shouldnt be shown
+        return res.render('home', {title:'Home'});
+     }
+     return res.redirect('/users/sign-up');
 }
 // module.exports.actionName = function(req,res){}
