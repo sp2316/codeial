@@ -1,0 +1,33 @@
+footer{
+    background-color: blueviolet;
+    display:flex;
+    #rights{
+      flex-basis:30%;
+      border:1px solid red;
+      position: relative;
+
+      span{
+          position:absolute;
+          top:20px;
+          color:whitesmoke;
+          font-size:1.1rem;
+          letter-spacing:0.2rem;
+          word-spacing: 0.3rem;
+      }
+     }
+     #footer-list{
+        border:1px solid red;
+        flex-basis: 100px;
+        ul{
+            list-style: none;
+            li{
+                font-size:1.2rem;
+                a{
+                    text-decoration: none;
+                     color:whitesmoke;
+                }
+
+            }
+        }
+     }
+}

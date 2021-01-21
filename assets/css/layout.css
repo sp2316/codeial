@@ -1,4 +1,5 @@
 body {
-  /* text-align: center; */ }
+  margin: 0;
+  background-color: whitesmoke; }
   body #layout-main {
     height: 100%; }
