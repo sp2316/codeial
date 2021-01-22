@@ -13,7 +13,13 @@
         <ul>
              <%for(post of posts){%>
                   <li>
+                       <p>
                        <%= post.content %>
+                       <br>
+                       <small>
+                          Posted by <%= post.user.name %>
+                       </small>
+                       </p>
                   </li>
 
              <% } %>
