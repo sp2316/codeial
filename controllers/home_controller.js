@@ -1,5 +1,5 @@
 const Post = require("../models/posts");
-
+const User=require('../models/users');
 
 module.exports.home=function(req,res){
    
@@ -13,11 +13,15 @@ module.exports.home=function(req,res){
          }
      })
      .exec(function(err,posts){
-        //  'user' is the name of the attribute in the post database
-        return res.render('home', {
-            title:'Home',
-            posts: posts
-        });
+        User.find({},function(err,users){
+
+            return res.render('home', {
+                title:'Home',
+                posts: posts,
+                all_users:users
+            });
+        })
+        
 
      })
 
