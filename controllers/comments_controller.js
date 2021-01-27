@@ -22,6 +22,27 @@ module.exports.create=function(req,res){
                res.redirect('/');
             })
         }
+    });
+
+}
+
+module.exports.destroy=function(req,res){
+//  checking whether exists or not before deleting it
+    Comment.findById(req.params.id,function(err,comment){
+        if(comment.user == req.user.id){
+// save post id before deleting the comment,so that we could go to that post id and delete the comment from the comments[] list
+         let postId = comment.post;
+         comment.remove();
+        //  $pull is inbuilt, pulls out the id matching with the id given
+         Post.findByIdAndUpdate(postId,{$pull : {comments: req.params.id}},function(err,post){
+             return res.redirect('back');
+         })
+
+        }else{
+            return res.redirect('back');
+
+        }
     })
+
 
 }
