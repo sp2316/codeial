@@ -17,12 +17,13 @@ module.exports.update = function(req,res){
     if(req.user.id == req.params.id){
 
         User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-
+            req.flash('success','User details updated');
             return res.redirect('back');
 
         });
     }else{
-        return res.status(401).send('Unauthorized');  //400-unauthorized
+        req.flash('error','Error in updating details');
+       // return res.status(401).send('Unauthorized');  //400-unauthorized
     }
 
 
@@ -53,6 +54,7 @@ module.exports.signin=function(req,res){ //if logged in sign in page shouldnt be
 module.exports.create=function(req,res){
 
 if(req.body.password != req.body.confirm_password){
+    req.flash('error','Passwords dont match');
     return res.redirect('back');
 }
   User.findOne({email:req.body.email},function(err,user){
@@ -70,7 +72,9 @@ if(req.body.password != req.body.confirm_password){
            })
        }
        else{
-           return res.redirect('back');
+        req.flash('error','Email id already exists');
+        return res.redirect('back');
+
        }
   })
 

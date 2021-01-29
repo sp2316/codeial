@@ -14,13 +14,14 @@ module.exports.create=async function(req,res){
 
               post.comments.push(comment); //Automatically fetch out the id and push it
               post.save(); 
+              req.flash('success','Comment posted');
               //Whenever we make changes to object,save tells database that this is the final version of object,so block it
               //before that data is in the ram,after save it will be in database 
               res.redirect('/');
         }
     }catch(err){
-        console.log('Error',err);
-        return;
+        req.flash('error',err);
+        return res.redirect('back');
 
     }
 
@@ -38,6 +39,7 @@ try{
             comment.remove();
         //$pull is inbuilt, pulls out the id matching with the id given
             await Post.findByIdAndUpdate(postId,{$pull : {comments: req.params.id}});
+            req.flash('success','Comment deleted');
             return res.redirect('back');
 
     } else{
@@ -45,8 +47,8 @@ try{
     }
 
 }catch(err){
-        console.log('Error',err);
-        return;
+    req.flash('error',err);
+    return res.redirect('back');
 
     }
  

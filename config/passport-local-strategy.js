@@ -5,19 +5,20 @@ const LocalStrategy =require('passport-local').Strategy;
 
 // Authentication using passport
 passport.use(new LocalStrategy({
-    usernameField:'email' //In our schema email is the unique field and we kept it as username
-   },
-   function(email,password,done){ 
+    usernameField:'email', //In our schema email is the unique field and we kept it as username
+    passReqToCallback:true
+    },
+   function(req,email,password,done){ 
     // done is a callback function reporting to passort js
     // Find a user and establish the identity
     User.findOne({email:email},function(err,user){
          if(err){
-             console.log('Error in finding User --> Passport');
-             return done(err);//error
+            req.flash('error',err);
+            return done(err);//error
          } 
          if(!user || user.password != password){
-             console.log('Invalid Username/Password');
-             return done(null,false); //no error but user authenication failed
+            req.flash('error','Invalid Username/Password');
+            return done(null,false); //no error but user authenication failed
          }
          return done(null,user); //no error and pass on the user
 
