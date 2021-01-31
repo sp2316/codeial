@@ -5,10 +5,19 @@ const Comment = require("../models/comment")
 module.exports.create=async function(req, res){
  try{
 //  since we dont need to use post again in this function no need to use let post
-     await Post.create({
+     let post = await Post.create({
         content: req.body.content,
         user:req.user._id
     });
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    post:post
+                },
+                message: "Post created!"
+            });
+
+        }
         req.flash('success','post published!')
         return res.redirect('back');
     
