@@ -55,7 +55,7 @@ module.exports.create=function(req,res){
 
 if(req.body.password != req.body.confirm_password){
     req.flash('error','Passwords dont match');
-    return res.redirect('back');
+    return res.redirect('back')
 }
   User.findOne({email:req.body.email},function(err,user){
        if(err){

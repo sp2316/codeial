@@ -26,16 +26,20 @@ try{
      let post= await Post.findById(req.params.id);
 // check if user who created the post is the one deleting it
 // post.user requires a string id
-    if(post.user == req.user.id) //convert ._id(object id) to string by using .id directly
+    if(post.user == req.user.id){ //convert ._id(object id) to string by using .id directly
         post.remove(); 
 //  Delete comments associated with that post
         await Comment.deleteMany({post:req.params.id});
         req.flash('success','post deleted');
         return res.redirect('back');
-
-     }catch(err){
+    }
+    else{
         req.flash('error','You cannot delete this post');
-        return res.redirect('back');;
+        return res.redirect('back');
+    }
+     }catch(err){
+        req.flash('error',err);
+        return res.redirect('back');
      }
 
 

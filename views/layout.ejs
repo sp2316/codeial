@@ -25,6 +25,7 @@
         <%- script %>
 
         <script>
+            // if locals has flash.success and flash.success has a message
             <% if(flash.success && flash.success.length > 0) { %>
                 new Noty({
                     theme:'relax',
