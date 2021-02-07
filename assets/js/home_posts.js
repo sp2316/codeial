@@ -3,15 +3,16 @@
     let createPost=function(){
         let newPostForm =$('#new-post-form');
         newPostForm.submit(function(e){
-            e.preventDefault();
+            e.preventDefault(); //form does not send data to the url in the action attribute  due to this
 
             $.ajax({
                 type:'post',
                 url:'/posts/create',
                 data:newPostForm.serialize(), //this converts post form data into json (content:value)
                 success:function(data){
-                    let newPost= newPostDom(data.data.post);
+                    let newPost= newPostDom(data.data.post,data.data.user);
                     $('#posts-list-container > ul').prepend(newPost);
+                    deletePost($(' .delete-post-button',newPost));
                 },
                 error:function(error){
                     console.log(err.responseText);
@@ -25,19 +26,18 @@
 
     }
     // method to create a post in DOM
-    let newPostDom=function(post){
+    let newPostDom=function(post,user){
         return $(`<li id="post-${post._id}">
-                    <p>
-                        <!-- if user is signed in and the user who signed in is same as user who created the post -->
+                    <p> 
                         <small>
-                                <!-- post.id or post._id  both works the same -->
-                                <a class="delete-post-button" href="/posts/destroy/${post.id}">X</a> 
+                                <a class="delete-post-button" href="/posts/destroy/${post._id}">X</a> 
                         </small>
                         
                         ${post.content}
                     <br>
+                    
                     <small>
-                    Posted by ${post.user.name}
+                        Posted by ${user}
                     </small>
                     </p>
                     <div class="post-comments">
@@ -59,6 +59,29 @@
                 </li>
                 `)
     }
+
+    //method to delete a post from DOM
+    let deletePost=function(deleteLink){
+        console.log(deleteLink);
+        (deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'get',
+                url : (deleteLink).prop('href'),
+                success: function(data){
+                        console.log(data.data);
+                        $(`#post-${data.data.post_id}`).remove();
+                },
+                error:  function(error){
+
+                    console.log(error.responseText);
+
+                }
+            })
+        });
+
+    } 
 
     createPost();
 }

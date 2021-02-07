@@ -9,10 +9,13 @@ module.exports.create=async function(req, res){
         content: req.body.content,
         user:req.user._id
     });
+     
+    post = await post.populate('user').execPopulate()
         if(req.xhr){
             return res.status(200).json({
                 data:{
-                    post:post
+                    post:post,
+                    user:post.user.name
                 },
                 message: "Post created!"
             });
@@ -39,6 +42,15 @@ try{
         post.remove(); 
 //  Delete comments associated with that post
         await Comment.deleteMany({post:req.params.id});
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    post_id:req.params.id
+                },
+                message:"Post deleted"
+            })
+        }
         req.flash('success','post deleted');
         return res.redirect('back');
     }
