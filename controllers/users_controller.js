@@ -13,18 +13,35 @@ module.exports.profile=function(req,res){
 }
 
 
-module.exports.update = function(req,res){
-    if(req.user.id == req.params.id){
+module.exports.update = async function(req,res){
 
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-            req.flash('success','User details updated');
+    try{
+        if(req.user.id == req.params.id){
+
+       let user= await User.findById(req.params.id);
+    //    without multer we wouldn't be able to readd body as we are using  a multi part form and url encoder cant read a multi part file
+       User.uploadedAvatar(req,res,function(err){
+            if(err){
+                console.log('*****Multer Error******',err);
+            }
+            // console.log(req.file);
+            user.name=req.body.name;
+            user.email = req.body.email;
+
+            if(req.file){
+                // This is saving the path of the uploaded file into the avat field in the user
+                user.avatar=User.avatarPath+'/'+req.file.filename;
+            }
+            user.save();
             return res.redirect('back');
-
-        });
-    }else{
-        req.flash('error','Error in updating details');
-       // return res.status(401).send('Unauthorized');  //400-unauthorized
+       });
     }
+    }catch(err){
+        req.flash('error',err);
+        return res.redirect('back');
+    }
+    
+
 
 
 }
