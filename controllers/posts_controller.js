@@ -10,14 +10,12 @@ module.exports.create=async function(req, res){
         user:req.user._id
     });
      
-    post = await post.populate('user').execPopulate()
+    post = await post.populate('user','name').execPopulate()
         if(req.xhr){
             return res.status(200).json({
                 data:{
-                    post:post,
-                    user:post.user.name
-                },
-                message: "Post created!"
+                    post:post
+                }
             });
 
         }

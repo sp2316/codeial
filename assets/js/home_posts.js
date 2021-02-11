@@ -1,6 +1,6 @@
 {   
     // method to submit the form data for new post using AJAX
-    let createPost=function(){
+    var createPost=function(){
         let newPostForm =$('#new-post-form');
         newPostForm.submit(function(e){
             e.preventDefault(); //form does not send data to the url in the action attribute  due to this
@@ -10,9 +10,17 @@
                 url:'/posts/create',
                 data:newPostForm.serialize(), //this converts post form data into json (content:value)
                 success:function(data){
-                    let newPost= newPostDom(data.data.post,data.data.user);
+                    let newPost= newPostDom(data.data.post);
                     $('#posts-list-container > ul').prepend(newPost);
                     deletePost($(' .delete-post-button',newPost));
+                    createComment(data.data.post._id);
+                    new Noty({
+                        theme: 'relax',
+                        text:'Post published',
+                        type:'success',
+                        layout:'topRight',
+                        timeout:1500
+                    }).show();
                 },
                 error:function(error){
                     console.log(err.responseText);
@@ -26,7 +34,7 @@
 
     }
     // method to create a post in DOM
-    let newPostDom=function(post,user){
+    let newPostDom=function(post){
         return $(`<li id="post-${post._id}">
                     <p> 
                         <small>
@@ -37,12 +45,12 @@
                     <br>
                     
                     <small>
-                        Posted by ${user}
+                        Posted by ${post.user.name}
                     </small>
                     </p>
                     <div class="post-comments">
     
-                        <form action="/comments/create" method="POST">
+                        <form id="post-${ post._id }-comments-form" action="/comments/create" method="POST">
                                 <input type="text" name="content" placeholder="Type here to add Comment..." required>   
                                 <input type="hidden" name="post" value="${post._id}">
                                 <input type="submit" value="Add Comment"> 
@@ -62,7 +70,7 @@
 
     //method to delete a post from DOM
     let deletePost=function(deleteLink){
-        console.log(deleteLink);
+        // console.log(deleteLink);
         (deleteLink).click(function(e){
             e.preventDefault();
 
@@ -70,8 +78,15 @@
                 type: 'get',
                 url : (deleteLink).prop('href'),
                 success: function(data){
-                        console.log(data.data);
                         $(`#post-${data.data.post_id}`).remove();
+                        new Noty({
+                            theme: 'relax',
+                            text: "Post destroyed",
+                            type: 'success',
+                            layout: 'topRight',
+                            timeout: 1500
+                            
+                        }).show();
                 },
                 error:  function(error){
 
@@ -83,5 +98,21 @@
 
     } 
 
+ // loop over all the existing posts on the page (when the window loads for the first time) and call the delete post method on delete link of each, also add AJAX (using the class we've created) to the delete button of each
+
+    let convertPostsToAjax=function(){
+        $('#posts-list-container>ul>li').each(function(){
+            let self=$(this);
+            let deleteButton = $(' .delete-post-button',self);
+            deletePost(deleteButton);
+
+            let postId = self.prop('id').split("-")[1];
+            createComment(postId);
+
+
+        });
+    }
     createPost();
+    convertPostsToAjax();
 }
+
