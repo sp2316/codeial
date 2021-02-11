@@ -18,11 +18,25 @@ const userSchema=new mongoose.Schema({
     name:{  // these keys must have the same name as the name given in form inorder for them to match
         type:String,
         required:true
+    },
+    avatar:{
+        type:String,
+
     }
 
 },{
     timestamps:true //Takes care of when user data is created and updated..shows date and time
 });
+
+let storage = multer.diskStorage({
+    destination:function(req,file,cb){ //cb is callback
+        cb(null,path.join(__dirname,'..',AVATAR_PATH)); //from current path to the storage path
+    },
+    filename:function(req,file,cb){
+        cb(null,file.filename+'-'+Date.now());
+    }
+})
+
 
 const User=mongoose.model('User',userSchema);
 
