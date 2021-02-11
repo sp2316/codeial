@@ -28,15 +28,23 @@ const userSchema=new mongoose.Schema({
     timestamps:true //Takes care of when user data is created and updated..shows date and time
 });
 
+
 let storage = multer.diskStorage({
     destination:function(req,file,cb){ //cb is callback
         cb(null,path.join(__dirname,'..',AVATAR_PATH)); //from current path to the storage path
     },
     filename:function(req,file,cb){
-        cb(null,file.filename+'-'+Date.now());
+        cb(null,file.fieldname+'-'+Date.now()); //field
     }
 })
 
+//static methods
+
+userSchema.statics.uploadedAvatar= multer({
+    storage:storage
+}).single('avatar'); //this says that only one file would be uploaded for field name avatar but not array of files
+
+userSchema.statics.avatarPath = AVATAR_PATH;
 
 const User=mongoose.model('User',userSchema);
 
