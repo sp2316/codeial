@@ -44,6 +44,9 @@ app.use(cookieParser());
 // linking static files
 app.use(express.static('./assets'));
 
+// Make the uploads part available to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'));
+
 app.use(expressLayouts);
 
 //extract style and scripts from subpages into layout

@@ -2,6 +2,8 @@ const mongoose=require('mongoose');
 
 const multer = require('multer');
 const path= require('path');
+
+// the strung is converted into path using path module below.. we can directly provide string too without using path.join()
 const AVATAR_PATH = path.join('/uploads/users/avatars');
 
 const userSchema=new mongoose.Schema({
@@ -28,7 +30,7 @@ const userSchema=new mongoose.Schema({
     timestamps:true //Takes care of when user data is created and updated..shows date and time
 });
 
-
+// storage settings
 let storage = multer.diskStorage({
     destination:function(req,file,cb){ //cb is callback
         cb(null,path.join(__dirname,'..',AVATAR_PATH)); //from current path to the storage path

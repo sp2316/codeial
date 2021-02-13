@@ -1,4 +1,6 @@
 const User = require("../models/users");
+const fs=require('fs');
+const path= require('path');
 
 // since there is no nesting level,no need to keep it to async await
 module.exports.profile=function(req,res){
@@ -29,6 +31,11 @@ module.exports.update = async function(req,res){
             user.email = req.body.email;
 
             if(req.file){
+
+            if(user.avatar){
+                fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+            }
+
                 // This is saving the path of the uploaded file into the avat field in the user
                 user.avatar=User.avatarPath+'/'+req.file.filename;
             }
