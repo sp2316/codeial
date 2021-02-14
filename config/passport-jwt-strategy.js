@@ -1,5 +1,4 @@
 const passport = require('passport');
-const { deleteOne } = require('../models/users');
 
 const JWTStrategy=require('passport-jwt').Strategy;
 
@@ -12,6 +11,7 @@ let opts={
     secretOrKey:'Codeial'
 }
 
+//used after jwt is generated,to authenticate it
 passport.use(new JWTStrategy(opts,function(jwtPayLoad,done){
 
     User.findById(jwtPayLoad._id,function(err,user){
@@ -20,7 +20,7 @@ passport.use(new JWTStrategy(opts,function(jwtPayLoad,done){
             return;
         }
         if(user){
-            return done(null,user);
+            return done(null,user); //putting user in the request as req.user
         }else{
             return done(null,false); 
         }
