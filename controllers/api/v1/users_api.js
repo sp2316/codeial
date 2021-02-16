@@ -1,5 +1,5 @@
 const User = require("../../../models/users")
-
+const jwt = require('jsonwebtoken');
 
 
 module.exports.createSession=async function(req,res){
@@ -14,11 +14,11 @@ module.exports.createSession=async function(req,res){
             return res.json(200,{
                 message:'Sign in Successful,here is your token keep it safe ',
                 data:{
-                    token:jwt.sign(user.toJSON(),'codeial',{expiresIn:'1000'})
+                    token:jwt.sign(user.toJSON(),'codeial',{expiresIn:'100000'})
                 }
             })
     }catch(err){
-
+        console.log(err);
         return res.json(500,{
             message:"Internal Server Error"
         });
