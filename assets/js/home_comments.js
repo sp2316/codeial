@@ -33,8 +33,7 @@
 
 
        });
-    //    console.log($('.delete-comment-button'));   
-
+       
        $(' .delete-comment-button',postContainer).each(function(){
         deleteComment($(this));
     });
