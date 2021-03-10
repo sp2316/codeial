@@ -8,14 +8,14 @@ let transporter=nodemailer.createTransport({
     port:587,
     secure:false,
     auth:{
-        user:'saiprasadpalivela@gmail.com',
+        user:'saiprasadpalivela',
         pass:'joel123$*'
     }
 });
 
 
 
-let renderedTemplate = (data,relativePath) =>{
+let renderTemplate = (data,relativePath) =>{
     let mailHTML;
     ejs.renderFile(
         path.join(__dirname,'../views/mailers',relativePath),
@@ -27,4 +27,9 @@ let renderedTemplate = (data,relativePath) =>{
         }
     )
     return mailHTML;
+}
+
+module.exports={
+    transporter:transporter,
+    renderTemplate:renderTemplate
 }

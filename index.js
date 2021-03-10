@@ -21,7 +21,7 @@ const passportJWT = require('./config/passport-jwt-strategy');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
 //for storing session key in mongoDB
 const MongoStore=require('connect-mongo')(session); //pass the session variable created above
-̀
+
 //for requiring the node-sass-middleware module
 const  sassMiddleware=require('node-sass-middleware');
 
