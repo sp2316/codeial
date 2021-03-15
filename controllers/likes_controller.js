@@ -24,20 +24,24 @@ module.exports.toggleLike= async function(req,res){
         
        //if a like already exists,then delete it
        if(existingLike){
+
          likeable.likes.pull(existingLike._id); //pulling out of like array present in post or comment 
          likeable.save();
          existingLike.remove();
          deleted=true;
+
        }
        else{ // make a new like
+
         let newLike=await Like.create({
             user:req.user._id,
             likeable:req.query.id,
             onModel:req.query.type
         });
-        likeable.likes.push(like._id);
+        likeable.likes.push(newLike._id);
         likeable.save();
        }
+       
        return res.json(200,{
            message:'Request successful',
            data:{
