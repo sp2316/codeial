@@ -15,6 +15,9 @@
                    let newComment= newCommentDom(data.data.comment);
                    $(`#post-comments-${postId}`).prepend(newComment);
                    deleteComment($(' .delete-comment-button',newComment));
+                   //enable the functionality of the toggle like button on the newly created comment
+                   new ToggleLike($(' .toggle-like-button',newComment));
+
                    new Noty({
                     theme: 'relax',
                     text: "Comment published!",
@@ -60,7 +63,7 @@ let newCommentDom=function(comment){
                          0 Likes
                    </a>
                         
-            </small>
+             </small>
        </p>     
       </li>
        
