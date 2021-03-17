@@ -59,7 +59,7 @@ let newCommentDom=function(comment){
               comment by  ${comment.user.name}
             </small>
             <small>
-                  <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Post">
+                  <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Comment">
                          0 Likes
                    </a>
                         
